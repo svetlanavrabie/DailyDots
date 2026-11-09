@@ -31,6 +31,7 @@ applyTo: "**/*"
 - Document public interfaces, important decisions, setup requirements, and non-obvious operational behavior.
 - Prefer self-explanatory code over excessive inline commentary.
 - Keep README, AGENTS.md, and applicable instruction files aligned when product scope, layout, styling, or commands change. Distinguish implemented features from optional future work.
+- For date-selection changes, keep the documented Monday–Sunday week definition and draft-confirmation behavior consistent across all input paths.
 
 ## 5. Refactoring Discipline
 - Make the smallest coherent change that satisfies the requirement.

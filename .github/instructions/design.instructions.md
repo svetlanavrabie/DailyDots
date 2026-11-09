@@ -116,6 +116,7 @@ applyTo: "**/*.tsx,**/*.ts,**/*.css"
 - Adapt navigation and layouts according to available space.
 - Prevent horizontal overflow and unnecessary scrolling.
 - Ensure interactive elements remain accessible on touch devices.
+- Keep mood choices at three columns from 360px until `md`; six columns at `sm` can crowd long emotion labels. Weekly dots must fit narrow phones without overflowing their date links.
 - Prioritize content and functionality over preserving desktop layouts on smaller screens.
 - Reserve space beneath page content for fixed phone navigation, including `env(safe-area-inset-bottom)`. Match scroll padding so focused controls and the footer remain reachable.
 - Position toast notifications above phone navigation, not over it; restore the normal bottom spacing on tablet/desktop.
@@ -127,6 +128,7 @@ applyTo: "**/*.tsx,**/*.ts,**/*.css"
 ## 9. Interaction & Feedback
 
 - Make interactive elements visually recognizable.
+- In New reflection, keep Last week expandable without changing the draft; show seven labeled dates for the previous Monday–Sunday week, a visible selected state, pointer cursors, and keyboard focus. Retain the native date input and confirm before switching dates.
 - Provide immediate and meaningful feedback after user actions.
 - Use clear loading, success, warning, and error states.
 - Prevent accidental destructive actions through appropriate confirmation.

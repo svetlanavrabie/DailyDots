@@ -18,7 +18,7 @@ export function MoodCheckIn() {
         </div>
         {entry && <Link to={`/journals/${today}`} className="inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-2 text-xs font-medium text-primary"><MoodEmoji mood={entry.mood} size="small" />Saved today: {getMood(entry.mood).label}</Link>}
       </div>
-      <div className="grid grid-cols-2 gap-3 min-[360px]:grid-cols-3 sm:grid-cols-6 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 min-[360px]:grid-cols-3 md:grid-cols-6 lg:grid-cols-3 xl:grid-cols-6">
         {MOODS.map((mood) => (
           <Link key={mood.value} to={`/new?date=${today}&mood=${mood.value}`} aria-label={`Write about feeling ${mood.label.toLowerCase()}`} className="group flex min-w-0 flex-col items-center gap-3 rounded-2xl border border-line bg-canvas px-1 py-4 text-xs font-medium text-ink transition-colors hover:border-primary hover:bg-accent-soft">
             <span className="motion-safe:transition-transform motion-safe:group-hover:-translate-y-1"><MoodEmoji mood={mood.value} size="large" /></span>

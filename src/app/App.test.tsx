@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { App } from './App'
@@ -13,7 +13,10 @@ function renderApp(path = '/') {
 }
 
 beforeEach(() => localStorage.clear())
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.useRealTimers()
+})
 
 describe('daily journal experience', () => {
   it('shows the Daily Dots brand and links it to Home', async () => {
@@ -219,6 +222,66 @@ describe('daily journal experience', () => {
     expect(await screen.findByRole('textbox', { name: 'What’s on your mind?' })).toHaveValue('Synthetic existing text.')
     expect(screen.getByRole('radio', { name: 'Calm' })).toBeChecked()
     expect(screen.getByRole('button', { name: 'Update entry' })).toBeInTheDocument()
+  })
+
+  it('reveals last Monday–Sunday without changing the draft and saves a selected past date', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 8, 12))
+    const user = userEvent.setup()
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
+    renderApp('/new')
+    const toggle = await screen.findByRole('button', { name: 'Last week' })
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await user.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    const week = screen.getByRole('region', { name: 'Last week: Oct 26, 2026 – Nov 1, 2026' })
+    expect(within(week).getAllByRole('button')).toHaveLength(7)
+    expect(screen.getByLabelText('Your day')).toHaveValue('2026-11-08')
+    expect(confirm).not.toHaveBeenCalled()
+    const monday = within(week).getByRole('button', { name: 'Monday, October 26, 2026' })
+    monday.focus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByLabelText('Your day')).toHaveValue('2026-10-26')
+    expect(monday).toHaveAttribute('aria-pressed', 'true')
+    await user.click(monday)
+    expect(confirm).toHaveBeenCalledTimes(1)
+    await user.click(screen.getByRole('radio', { name: 'Calm' }))
+    await user.type(screen.getByRole('textbox', { name: 'What’s on your mind?' }), 'Synthetic past-week reflection.')
+    await user.click(screen.getByRole('button', { name: 'Save my day' }))
+    expect(await screen.findByText('Synthetic past-week reflection.')).toBeInTheDocument()
+    expect(await journalRepository.list()).toMatchObject([{ date: '2026-10-26', mood: 'calm' }])
+  })
+
+  it('preserves a draft on cancelled date switches and loads an existing past-week reflection on confirmation', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 8, 12))
+    const saved = await journalRepository.save({ date: '2026-11-01', mood: 'happy', text: 'Synthetic saved past reflection.' })
+    const user = userEvent.setup()
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    renderApp('/new')
+    const text = await screen.findByRole('textbox', { name: 'What’s on your mind?' })
+    await user.type(text, 'Synthetic draft.')
+    await user.click(screen.getByRole('button', { name: 'Last week' }))
+    const sunday = screen.getByRole('button', { name: 'Sunday, November 1, 2026' })
+    await user.click(sunday)
+    expect(text).toHaveValue('Synthetic draft.')
+    expect(screen.getByLabelText('Your day')).toHaveValue('2026-11-08')
+    fireEvent.change(screen.getByLabelText('Your day'), { target: { value: '2026-10-30' } })
+    expect(text).toHaveValue('Synthetic draft.')
+    expect(screen.getByLabelText('Your day')).toHaveValue('2026-11-08')
+    await user.click(screen.getByRole('button', { name: 'Last week' }))
+    expect(screen.queryByRole('button', { name: 'Sunday, November 1, 2026' })).not.toBeInTheDocument()
+    expect(text).toHaveValue('Synthetic draft.')
+    await user.click(screen.getByRole('button', { name: 'Last week' }))
+    confirm.mockReturnValue(true)
+    await user.click(screen.getByRole('button', { name: 'Sunday, November 1, 2026' }))
+    expect(screen.getByRole('textbox', { name: 'What’s on your mind?' })).toHaveValue(saved.text)
+    expect(screen.getByRole('radio', { name: 'Happy' })).toBeChecked()
+    expect(screen.getByRole('button', { name: 'Update entry' })).toBeInTheDocument()
+    expect(await journalRepository.list()).toEqual([saved])
+    fireEvent.change(screen.getByLabelText('Your day'), { target: { value: '2026-10-30' } })
+    expect(screen.getByLabelText('Your day')).toHaveValue('2026-10-30')
+    expect(screen.getByRole('textbox', { name: 'What’s on your mind?' })).toHaveValue('')
   })
 
   it('keeps the draft and reports a storage write failure', async () => {

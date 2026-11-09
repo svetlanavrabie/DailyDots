@@ -45,6 +45,7 @@ Do not duplicate detailed coding or design rules defined in these files.
 - Keep the centered, sidebar-free layout, horizontal tablet/desktop navigation, and fixed bottom phone navigation.
 - Preserve all routes, mood choices, journal operations, search/filter behavior, theme persistence, JSON backup format, and local storage keys during layout-only work.
 - Keep the theme and backup controls available at every supported size, and notifications clear of mobile navigation.
+- Preserve New reflection's Last week date picker and shared date-switch confirmation. Its Monday–Sunday rules and draft behavior are documented in [README.md](README.md).
 - See [README.md](README.md) for implemented features, data/privacy limitations, setup, and project structure.
 
 ## Development Workflow
@@ -158,6 +159,7 @@ A successful production build does not replace linting, type checking, or tests.
 - Report existing failures separately from issues introduced by your changes.
 - For layout changes, follow the viewport/theme matrix in the design instructions and exercise populated, empty, error, and dialog states using synthetic data.
 - Verify active navigation, route-change focus, backup availability, and mobile navigation/notification clearance.
+- Cover last-week expansion, keyboard date selection, cancelled switches, existing-entry loading, and past-date saves; verify date controls wrap without clipping in both themes.
 - Documentation-only changes do not require application tests or builds unless documentation tests exist; validate links, instruction frontmatter, and consistency instead.
 
 ## Change Reporting

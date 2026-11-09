@@ -42,6 +42,7 @@ Organize utility classes consistently in the following order:
 - Avoid fixed widths and heights when flexible alternatives are more appropriate.
 - Use responsive grid and flex layouts instead of unnecessary positioning.
 - Prevent horizontal overflow and ensure content remains readable on smaller screens.
+- Do not impose a 320px body minimum: a 320px viewport can have less usable width when a vertical scrollbar is present.
 - Test important layouts at different viewport sizes.
 - Use `md` for the bottom-to-header navigation transition and `lg` for the single-row desktop header and dashboard columns.
 - Keep labels unwrapped in horizontal navigation and allow cards/forms to shrink or stack without overflowing.
@@ -70,6 +71,7 @@ Organize utility classes consistently in the following order:
 - Use consistent transition utilities where they improve usability.
 - Ensure disabled states are visually distinguishable and prevent interaction.
 - Avoid relying exclusively on hover interactions.
+- Use `cursor-pointer` on enabled reflection-date buttons and the native date field, including its calendar-picker indicator. Keep visible focus styles and responsive date-button grids; preserve disabled cursor overrides where applicable.
 
 ## 6. Custom CSS Rules
 

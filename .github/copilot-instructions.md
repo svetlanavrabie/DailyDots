@@ -441,7 +441,14 @@ Authentication is **not part of the initial version**.
 - Newest-first archive, text/date search, mood filter, and filter reset.
 - Total entries, writing streak, weekly counts/dots, and recent entries
   derived from persisted records, not invented history.
-- Native date selection; existing dates load their saved entries.
+- Native date selection plus a Last week button revealing the previous
+  calendar week's Monday–Sunday dates, anchored to today rather than the
+  selected date. Existing dates load their saved entries.
+- Opening or closing last-week choices must preserve the draft. Use the
+  same confirmed date-switch path for native input and day buttons;
+  cancelling keeps the draft, and selecting the current date is a no-op.
+  Never save automatically. Keep date controls keyboard-accessible with
+  pointer cursors and a visible selected state.
 
 Keep the existing schemas, `MOODS` definitions, repository/provider
 boundary, and summary services authoritative.

@@ -31,7 +31,7 @@ override keeps their transitive `minimatch` dependency on the patched 11.x line.
 
 - **Overview:** a 12-emotion quick check-in, summary, current writing streak, weekly mood dots, recent entries, and a quick link to today's journal. Choosing a mood opens today's entry with that feeling selected; it never saves automatically or discards existing journal text.
 - **Journal archive:** newest-first history, text/date search, mood filtering, and entry details with edit/delete actions.
-- **New reflection:** date selection, 12 labeled emotions (happy, calm, okay, sad, anxious, angry, excited, grateful, hopeful, proud, tired, overwhelmed), validated plain text, and create-or-update behavior. Existing saved moods remain compatible.
+- **New reflection:** native date selection and a **Last week** button revealing the previous Monday–Sunday week as selectable dates; 12 labeled emotions (happy, calm, okay, sad, anxious, angry, excited, grateful, hopeful, proud, tired, overwhelmed), validated plain text, and create-or-update behavior. Existing saved moods remain compatible.
 - Larger, consistently styled mood emojis on journal cards, entry details, and weekly history, with text labels and accessible names.
 - Confirmed permanent deletion, accessible native dialog, responsive navigation, and reduced-motion support.
 - Centered, sidebar-free layout: horizontal navigation on tablets/desktops and a fixed bottom navigation on phones, with room for device safe areas. Theme and JSON backup controls remain available at every screen size. The dashboard pairs its introduction with summary cards, then groups mood check-in and recent pages alongside the weekly overview.
@@ -42,6 +42,10 @@ Navigation sits at the bottom below 768px, moves into a horizontal header
 from 768px, and shares a row with branding and theme/date controls from
 1024px. Mobile content, scroll padding, and toast positioning account for
 the fixed navigation and device safe areas.
+
+Mood choices keep three columns through small-tablet widths and expand
+to six only when labels fit. Weekly dots shrink on narrow phones, and the
+page can fit a 320px viewport even when scrollbars reduce its usable width.
 
 ## Data and privacy
 
@@ -56,6 +60,15 @@ Malformed or unsupported stored data blocks journal operations rather than silen
 The entry's local `YYYY-MM-DD` date is its unique key, independent of timezone offsets and daylight-saving changes. Saves update that date in place, preserve its creation timestamp, and refresh the update timestamp. Weeks run Monday–Sunday. The current streak includes consecutive entries ending today, or yesterday when today has not yet been written; future entries do not extend it.
 
 Drafts are saved only with the save button. Date switching and cancellation warn before discarding, and closing/reloading the tab warns about unsaved edits. Navigating away through other application links does not save a draft.
+
+On New reflection, **Last week** expands or collapses seven date buttons
+for the calendar week before the current week (Monday–Sunday), not a
+rolling seven-day window or a week relative to the selected date.
+Opening the choices does not change or save the draft. Selecting another
+date asks for confirmation, then loads that day's saved reflection or a
+blank draft. Cancelling preserves the draft; selecting the current date
+does nothing. Date controls show pointer cursors, support keyboard use,
+and wrap on phones. The native date input remains available for any date.
 
 ## Structure
 

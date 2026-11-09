@@ -86,6 +86,7 @@ applyTo: "**/*.ts,**/*.tsx"
 - Keep data transformation predictable and testable.
 - Keep journal operations behind `useJournals`/`JournalProvider` and the `JournalRepository` contract. Theme storage belongs in the infrastructure preferences service, not directly in JSX components.
 - Reuse the Zod domain schemas and central `MOODS` definitions; layout changes must not change date keys, stored mood values, plain-text entries, or versioned backup payloads.
+- Use the shared `previousWeekDates` utility for the previous calendar week (Monday–Sunday), with local date-fns arithmetic. Route native and last-week selections through one validated, confirmed date-switch handler; opening the picker must not reset or save the form.
 
 ## 7. Code Organization & Readability
 
@@ -129,6 +130,7 @@ applyTo: "**/*.ts,**/*.tsx"
 - Test important user interactions and accessibility behavior.
 - Mock external dependencies and API calls where appropriate.
 - Keep tests deterministic, isolated, and maintainable.
+- Test previous-week Monday/Sunday, year/leap-day boundaries, keyboard selection, cancelled native/button date switches, existing-entry loading, and saving to the selected past date.
 - Ensure existing tests pass before considering a change complete.
 - For shell changes, cover all three navigation destinations, active links, route-change focus, single theme/backup controls, theme persistence, and backup disabling on storage failures.
 - Keep create/update/delete, mood prefill, search/filter, dialog, and backup regression coverage intact. Verify real responsive geometry in the browser as described in [design.instructions.md](design.instructions.md), not through jsdom alone.

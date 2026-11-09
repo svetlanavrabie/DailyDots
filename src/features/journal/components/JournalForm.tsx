@@ -54,7 +54,7 @@ export function JournalForm({ date, existing, initialMood }: JournalFormProps) {
       <fieldset disabled={isSubmitting}>
         <legend className="text-sm font-semibold">How did this day feel?</legend>
         <p id="mood-hint" className="mb-4 mt-2 text-xs text-muted">Choose the feeling that best describes this date for you.</p>
-        <div className="grid grid-cols-2 gap-3 min-[360px]:grid-cols-3 sm:grid-cols-6" role="group" aria-describedby={errors.mood ? 'mood-hint mood-error' : 'mood-hint'}>
+        <div className="grid grid-cols-2 gap-3 min-[360px]:grid-cols-3 md:grid-cols-6" role="group" aria-describedby={errors.mood ? 'mood-hint mood-error' : 'mood-hint'}>
           {MOODS.map((mood) => <label key={mood.value} className="relative cursor-pointer"><input type="radio" value={mood.value} {...register('mood')} className="peer sr-only" aria-invalid={!!errors.mood} aria-describedby={errors.mood ? 'mood-error' : undefined} /><span className="flex flex-col items-center gap-2 rounded-xl border border-line bg-canvas px-1 py-4 text-xs text-muted transition-colors hover:bg-accent-soft peer-checked:border-primary peer-checked:bg-accent-soft peer-checked:font-semibold peer-checked:text-primary peer-checked:ring-1 peer-checked:ring-primary peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-primary"><MoodEmoji mood={mood.value} />{mood.label}</span></label>)}
         </div>
         {errors.mood && <p id="mood-error" role="alert" className="mt-3 text-sm text-red-700 dark:text-red-300">{errors.mood.message}</p>}
