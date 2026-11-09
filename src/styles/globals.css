@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color-scheme: light;
+  --canvas: 250 247 242;
+  --surface: 255 253 250;
+  --ink: 47 42 51;
+  --muted: 101 92 105;
+  --line: 216 207 218;
+  --accent-soft: 237 227 244;
+  --accent-alt: 227 236 224;
+  --primary: 115 85 139;
+  --primary-hover: 93 66 115;
+  --notebook-cover: 213 190 233;
+  --notebook-border: 115 85 139;
+  --notebook-page: 247 238 218;
+  --notebook-ink: 67 47 83;
+  --peach: 255 240 228;
+  --mint: 232 243 237;
+  --rose: 250 234 240;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: 29 25 32;
+  --surface: 40 35 44;
+  --ink: 245 239 247;
+  --muted: 192 179 198;
+  --line: 79 67 86;
+  --accent-soft: 61 47 72;
+  --accent-alt: 43 59 49;
+  --primary: 213 190 233;
+  --primary-hover: 232 214 246;
+  --notebook-cover: 87 65 105;
+  --notebook-border: 213 190 233;
+  --notebook-page: 82 72 60;
+  --notebook-ink: 245 234 253;
+  --peach: 62 48 41;
+  --mint: 39 60 51;
+  --rose: 64 45 57;
+}
+
+@layer base {
+  html { scroll-padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+  body { @apply m-0 min-w-80 bg-canvas text-ink antialiased; }
+  button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+  button, a, input, textarea, select { @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary; }
+  button { @apply transition-colors disabled:cursor-not-allowed disabled:opacity-50; }
+  ::selection { @apply bg-accent-soft text-ink; }
+}
+
+@media (min-width: 768px) {
+  html { scroll-padding-bottom: 2rem; }
+}
+
+@layer components {
+  .button-primary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-hover dark:text-canvas; }
+  .button-secondary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line bg-surface px-4 py-2.5 text-sm font-medium text-ink hover:bg-accent-soft; }
+  .field { @apply w-full rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20; }
+  .card { @apply rounded-2xl border border-line bg-surface shadow-soft; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-widest text-muted; }
+}
+
+.notebook-art { transform: rotate(-12deg); }
+.notebook-art::before {
+  content: '';
+  position: absolute;
+  inset: 12px -9px -8px 8px;
+  border: 1px solid rgb(var(--notebook-border));
+  border-radius: 10px 18px 18px 10px;
+  background: rgb(var(--notebook-page));
+  z-index: -1;
+}
+
+dialog::backdrop { background: rgb(2 6 23 / 60%); backdrop-filter: blur(3px); }
+dialog[open] { animation: appear 160ms ease-out; }
+main { animation: appear 250ms ease-out; }
+@keyframes appear { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
