@@ -24,15 +24,12 @@ reflections from one overview.
 
 ![Daily Dots overview in light mode, showing journal statistics, twelve mood choices, weekly mood history, and recent reflections.](docs/screenshots/overview-light.png)
 
-<details>
-<summary><strong>A quieter writing space: see the dark theme</strong></summary>
+### A quieter writing space in dark mode
 
 Choose a date and a mood, then write at your own pace. Returning to a
 saved date opens that reflection for editing.
 
 ![Daily Dots reflection form in dark mode, with a date picker, Calm selected from twelve moods, a sample reflection, and the Update entry button.](docs/screenshots/reflection-dark.png)
-
-</details>
 
 *Both screenshots use fictional demonstration entries, not personal journal data.*
 
